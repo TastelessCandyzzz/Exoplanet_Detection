@@ -1,15 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>ML Website</title>
-</head>
-<body>
-    <nav>
-        <a href="/">Home</a> |
-        <a href="/submission">Submission</a> |
-        <a href="/about">About</a>
-    </nav>
-    <hr>
-    {% block content %}{% endblock %}
-</body>
-</html>
+{% extends "base.html" %}
+{% block content %}
+<h2>Submit New Data</h2>
+<form action="/submit_data" method="post">
+    {% for i in range(1,14) %}
+        <input type="text" name="value{{ i }}" placeholder="Value {{ i }}" required>
+    {% endfor %}
+    <button type="submit">Submit Data</button>
+</form>
+<p>After submission, the model will be retrained automatically.</p>
+{% endblock %}

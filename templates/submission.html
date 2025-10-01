@@ -7,5 +7,13 @@
     {% endfor %}
     <button type="submit">Submit Data</button>
 </form>
+<hr>
+
+<h3>Option 2: Upload CSV File</h3>
+<form action="/upload_csv" method="post" enctype="multipart/form-data">
+    <input type="file" name="file" accept=".csv" required>
+    <button type="submit">Upload CSV</button>
+</form>
+
 <p>After submission, the model will be retrained automatically.</p>
 {% endblock %}

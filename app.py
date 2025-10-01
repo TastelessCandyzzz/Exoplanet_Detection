@@ -32,6 +32,22 @@ def submit_data():
     retrain.train_model()        # Retrain model
     return redirect(url_for("submission_page"))
 
+@app.route("/upload_csv", methods=["POST"])
+def upload_csv():
+    if "file" not in request.files:
+        return "No file uploaded", 400
+    file = request.files["file"]
+    if file.filename == "":
+        return "Empty file name", 400
+
+    filepath = os.path.join("uploads", file.filename)
+    os.makedirs("uploads", exist_ok=True)
+    file.save(filepath)
+
+    submission.add_csv(filepath)
+    retrain.train_model()
+    return redirect(url_for("submission_page"))
+
 # About Page
 @app.route("/about")
 def about():

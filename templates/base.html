@@ -1,15 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>ML Website</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ML Website</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <nav>
-        <a href="/">Home</a> |
-        <a href="/submission">Submission</a> |
-        <a href="/about">About</a>
-    </nav>
-    <hr>
+<body class="bg-gray-100 text-gray-800 font-sans">
+
+  <!-- Navbar -->
+  <nav class="bg-blue-600 text-white px-6 py-3 flex justify-between items-center shadow-md">
+    <div class="text-xl font-bold">ML Website</div>
+    <div class="space-x-6">
+      <a href="/" class="hover:text-blue-200">Home</a>
+      <a href="/submission" class="hover:text-blue-200">Submission</a>
+      <a href="/about" class="hover:text-blue-200">About</a>
+    </div>
+  </nav>
+
+  <!-- Content wrapper -->
+  <div class="max-w-4xl mx-auto p-6">
     {% block content %}{% endblock %}
+  </div>
+
 </body>
 </html>
+

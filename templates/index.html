@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>Enter Features for Prediction</h2>
-<form action="/predict" method="post">
+<h2 class="text-2xl font-semibold mb-6">Enter Features for Prediction</h2>
+<form action="/predict" method="post" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
     {% for i in range(1,13) %}
-        <input type="text" name="feature{{ i }}" placeholder="Feature {{ i }}" required>
+        <input type="text" name="feature{{ i }}" placeholder="Feature {{ i }}" required class="border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
     {% endfor %}
-    <button type="submit">Predict</button>
+    <button type="submit" class="col-span-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">Predict</button>
 </form>
-<h3>{{ prediction_text }}</h3>
+<h3 class="text-lg font-medium text-gray-700">{{ prediction_text }}</h3>
 {% endblock %}

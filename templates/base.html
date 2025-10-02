@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ML Website</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body class="bg-gray-100 text-gray-800 font-sans">
 
@@ -20,8 +22,33 @@
 
   <!-- Content wrapper -->
   <div class="max-w-4xl mx-auto p-6">
-    {% block content %}{% endblock %}
+	 <div class="bg-white rounded-xl shadow-md p-8">
+      {% block content %}{% endblock %}
+    </div>
   </div>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-gray-300 px-6 py-4 flex justify-between items-center">
+    <div class="font-semibold">© 2025 ML Website</div>
+    <div class="flex space-x-6">
+      <a href="https://github.com/your-repo" target="_blank" class="hover:text-white flex items-center space-x-1">
+        <i data-lucide="github" class="w-5 h-5"></i>
+        <span>GitHub</span>
+      </a>
+      <a href="/docs" class="hover:text-white flex items-center space-x-1">
+        <i data-lucide="book-open" class="w-5 h-5"></i>
+        <span>Docs</span>
+      </a>
+      <a href="/contact" class="hover:text-white flex items-center space-x-1">
+        <i data-lucide="mail" class="w-5 h-5"></i>
+        <span>Contact</span>
+      </a>
+    </div>
+  </footer>
+
+  <script>
+    lucide.createIcons(); // Initialize icons
+  </script>
 
 </body>
 </html>

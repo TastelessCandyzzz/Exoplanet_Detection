@@ -1,29 +1,73 @@
 /* static/styles.css */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* Custom background with orb + grid */
-.bg-orb-grid {
-  background: #020617;
-  background-image: 
-    linear-gradient(to right, rgba(71,85,105,0.15) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(71,85,105,0.15) 1px, transparent 1px),
-    radial-gradient(circle at 50% 60%, rgba(236,72,153,0.15) 0%, rgba(168,85,247,0.05) 40%, transparent 70%);
-  background-size: 40px 40px, 40px 40px, 100% 100%;
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #0a0a1a; /* Base dark background */
+    color: #e0e0e0;
+    overflow: hidden; /* Hide scrollbars from the main body */
 }
-
-/* Optional: pulsing orb animation */
-@keyframes pulseOrb {
-  0%, 100% {
-    background-size: 40px 40px, 40px 40px, 100% 100%;
-  }
-  50% {
-    background-size: 40px 40px, 40px 40px, 110% 110%;
-  }
+.main-content {
+    height: calc(100vh - 64px); /* Full viewport height minus navbar */
+    overflow-y: auto; /* Allow scrolling within the content area */
 }
-
-.bg-orb-grid-animated {
-  animation: pulseOrb 12s ease-in-out infinite;
+.glass-card {
+    background: rgba(16, 16, 32, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
-
+.star-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-image:
+        radial-gradient(white, rgba(255,255,255,0) 0.5px),
+        radial-gradient(white, rgba(255,255,255,0) 0.5px);
+    background-size: 600px 600px, 200px 200px;
+    background-position: 0 0, 40px 40px;
+    animation: stars 200s linear infinite;
+    z-index: -1;
+}
+@keyframes stars {
+    from { transform: translateY(0); }
+    to { transform: translateY(-2000px); }
+}
+.nav-link {
+    transition: all 0.3s ease;
+    border-bottom: 2px solid transparent;
+}
+.nav-link-active {
+    color: #ffffff;
+    border-bottom-color: #3b82f6; /* Blue accent */
+}
+.nav-link:hover {
+    color: #ffffff;
+}
+.form-input {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+.form-input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+}
+.btn-predict {
+    background: linear-gradient(90deg, #3b82f6, #8b5cf6); /* Blue to Purple Gradient */
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+.btn-predict:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+}
+.file-upload-label {
+    border: 2px dashed rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+}
+.file-upload-label:hover {
+    border-color: #3b82f6;
+    background-color: rgba(59, 130, 246, 0.1);
+}

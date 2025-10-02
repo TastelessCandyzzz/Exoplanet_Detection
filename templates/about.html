@@ -1,11 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
-<h2 class="text-2xl font-semibold mb-4">About This Website</h2>
-<p class="mb-4">This page is under construction. Till then you can:</p>
-<ul  class="list-disc list-inside space-y-2 text-gray-700">
-  <li>Predict using a trained ML model</li>
-  <li>Submit new data to improve the model</li>
-  <li>Open this page to see the exact same thing.</li>
-  <li>Close this website and come back when it is complete.</li>
-</ul>
+<div class="max-w-4xl mx-auto">
+    <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4 text-center">About This Website</h1>
+
+    <div class="glass-card rounded-xl p-6 md:p-8 shadow-2xl space-y-6 text-gray-300 leading-relaxed">
+        <p>This page is under construction. Till then you can:</p>
+        <ul class="list-disc list-inside space-y-2">
+            <li>Predict using a trained ML model</li>
+            <li>Submit new data to improve the model</li>
+            <li>Open this page to see the exact same thing.</li>
+            <li>Close this website and come back when it is complete.</li>
+        </ul>
+    </div>
+</div>
 {% endblock %}

@@ -1,51 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ML Website</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.0/dist/tailwind.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ML Website</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
-<body class="min-h-screen flex flex-col bg-orb-grid bg-orb-grid-animated text-gray-100">
-    <!-- Navbar -->
-    <nav class="flex justify-between items-center px-8 py-4 bg-black/40 backdrop-blur-md shadow-lg">
-        <h1 class="text-lg font-bold text-pink-400">ML Website</h1>
-        <div class="space-x-6">
-            <a href="/" class="hover:text-pink-400 transition">Home</a>
-            <a href="/submission" class="hover:text-pink-400 transition">Submission</a>
-            <a href="/about" class="hover:text-pink-400 transition">About</a>
+<body>
+    <div class="star-bg"></div>
+
+    <nav class="bg-black bg-opacity-30 backdrop-blur-sm sticky top-0 z-10 border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-2xl font-bold text-white tracking-wider">ML Website</span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="/" class="nav-link text-gray-400 px-3 py-2 rounded-md text-sm font-medium {% if request.endpoint == 'index' %}nav-link-active{% endif %}">Home</a>
+                        <a href="/submission" class="nav-link text-gray-400 px-3 py-2 rounded-md text-sm font-medium {% if request.endpoint == 'submission' %}nav-link-active{% endif %}">Submission</a>
+                        <a href="/about" class="nav-link text-gray-400 px-3 py-2 rounded-md text-sm font-medium {% if request.endpoint == 'about' %}nav-link-active{% endif %}">About</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </nav>
 
-    <!-- Page content -->
-    <main class="flex-grow container mx-auto px-6 py-10">
-        {% block content %}{% endblock %}
+    <main class="main-content">
+        <div class="py-10 px-4">
+            {% block content %}{% endblock %}
+        </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-black/40 backdrop-blur-md text-gray-400 py-4 mt-auto">
-        <div class="container mx-auto flex justify-between items-center">
-            <p class="text-sm">© 2025 ML Website</p>
-            <div class="flex space-x-4">
-                <a href="https://github.com" target="_blank" class="hover:text-pink-400 transition">
-                    <i class="fab fa-github"></i>
-                </a>
-                <a href="https://twitter.com" target="_blank" class="hover:text-pink-400 transition">
-                    <i class="fab fa-twitter"></i>
-                </a>
-            </div>
-        </div>
-    </footer>
-</body>
-
-
-  <script>
-    lucide.createIcons(); // Initialize icons
-  </script>
 </body>
 </html>
-

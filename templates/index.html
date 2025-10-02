@@ -1,15 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="max-w-4xl mx-auto text-center">
-    <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-2">Feature Prediction System</h1>
+    <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-2">Exoplanet Prediction System</h1>
     <p class="text-lg text-gray-400 mb-8">Enter data to get a prediction from our trained model.</p>
 
     <div class="glass-card rounded-xl p-6 md:p-8 shadow-2xl">
         <form action="/predict" method="post" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {% for i in range(1,13) %}
-            <input type="text" name="feature{{ i }}" placeholder="Feature {{ i }}" required
+            <input type="text" name="features" placeholder="Features in csv format" required
                    class="form-input w-full rounded-lg p-3 text-white">
-            {% endfor %}
 
             <div class="md:col-span-2 mt-4">
                 <button type="submit" class="btn-predict w-full font-bold py-3 px-6 rounded-lg text-white text-lg">
@@ -26,6 +24,12 @@
             </div>
         </div>
         {% endif %}
+		{% if error_text %}
+            <div class="glass-card rounded-lg p-6 border border-red-500/50">
+                <h3 class="text-2xl font-bold text-red-400 mb-2">Error</h3>
+                <p class="text-lg text-gray-300">{{ error_text }}</p>
+            </div>
+            {% endif %}
     </div>
 </div>
 {% endblock %}

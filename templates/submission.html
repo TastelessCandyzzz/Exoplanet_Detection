@@ -1,8 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="max-w-4xl mx-auto text-center">
-    <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-2">Submit New Data</h1>
-    <p class="text-lg text-gray-400 mb-8">Provide new data via the form or upload a CSV file to improve the model's accuracy.</p>
+	<h1 class="text-4xl md:text-5xl font-extrabold text-white mb-2">Submit New Data</h1>
+	{% if error_text %}
+	<div class="glass-card rounded-lg p-4 my-4 border border-red-500/50">
+		<p class="text-lg text-red-400">{{ error_text }}</p>
+	</div>
+	{% endif %}
+	<p class="text-lg text-gray-400 mb-8">Provide new data via the form or upload a CSV file to improve the model's accuracy.</p>
 
     <div class="glass-card rounded-xl p-6 md:p-8 shadow-2xl">
         <form action="/submit_data" method="post" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">

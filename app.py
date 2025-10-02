@@ -13,24 +13,53 @@ app = Flask(__name__)
 def home():
     return render_template("index.html")
 
-# Prediction Route
+# Prediction Route with Validation
 @app.route("/predict", methods=["POST"])
 def predict():
-    features = [float(x) for x in request.form.values()]
-    prediction_result = prediction.make_prediction(features)
-    return render_template("index.html", prediction_text=f"Predicted class: {prediction_result}")
+    # Get the single string of comma-separated values
+    features_str = request.form.get("features")
+
+    # Try to convert to numbers
+    try:
+        # Split by comma and convert each item to a float
+        features = [float(x.strip()) for x in features_str.split(",")]
+
+        # Make the prediction
+        prediction_result = prediction.make_prediction(features)
+        return render_template("index.html", prediction_text=f"Predicted class: {prediction_result}")
+
+    except ValueError:
+        # If conversion fails, return an error message
+        error_msg = "Invalid input. Please enter only comma-separated numeric values."
+        return render_template("index.html", error_text=error_msg)
+    except Exception as e:
+        # Catch any other unexpected errors
+        error_msg = f"An error occurred: {e}"
+        return render_template("index.html", error_text=error_msg)
+
 
 # Submission Page
 @app.route("/submission")
 def submission_page():
     return render_template("submission.html")
 
+# Submit Data Route with Validation
 @app.route("/submit_data", methods=["POST"])
 def submit_data():
-    values = [float(x) for x in request.form.values()]
-    submission.add_data(values)  # Append to numpy dataset
-    retrain.train_model()        # Retrain model
-    return redirect(url_for("submission_page"))
+    try:
+        # Try to convert all form values to floats
+        values = [float(x) for x in request.form.values()]
+
+        # Proceed if successful
+        submission.add_data(values)
+        retrain.train_model()
+        return redirect(url_for("submission_page"))
+
+    except ValueError:
+        # If conversion fails, reload the page with an error message
+        error_msg = "Invalid input. Please ensure all fields contain only numeric values."
+        return render_template("submission.html", error_text=error_msg)
+
 
 @app.route("/upload_csv", methods=["POST"])
 def upload_csv():

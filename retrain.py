@@ -29,20 +29,18 @@ def train_model():
     print("Loading data, pipeline, and model...")
     # --- 2. Load all necessary components ---
     data = np.load(DATA_PATH, allow_pickle=True)
-    pipeline_dict = joblib.load(PIPELINE_PATH) # Load the preprocessing pipeline
-    pipeline = pipeline_dict["transformation_pipeline"]
-    model_dict = joblib.load(MODEL_PATH)       # Load the existing model
-    model = model_dict["model"]
+    pipeline = joblib.load(PIPELINE_PATH) # Load the preprocessing pipeline
+    model = joblib.load(MODEL_PATH)       # Load the existing model
 
     # --- 3. Prepare and Transform the Data ---
     # Assuming the last column is the target variable
-    X = data[:, :-1]  # Features
-    y = data[:, -1]   # Target
+    X = data[:, 1:]  # Features
+    y = data[:, 0]   # Target
 
     print("Transforming features using the pipeline...")
     # NEW: Use the loaded pipeline to transform the features
     # We use .transform() because the pipeline is already fitted
-    X_transformed = pipeline.transform(X)
+    X_transformed = pipeline.fit_transform(X)
 
     # --- 4. Retrain the Model ---
     print("Retraining model on the transformed data...")
@@ -51,6 +49,7 @@ def train_model():
 
     # --- 5. Save the Updated Model ---
     joblib.dump(model, MODEL_PATH)
+    joblib.dump(pipeline, PIPELINE_PATH)
     print("Model has been retrained and saved at", MODEL_PATH)
 
 

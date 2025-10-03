@@ -10,13 +10,12 @@
 	<p class="text-lg text-gray-400 mb-8">Provide new data via the form or upload a CSV file to improve the model's accuracy.</p>
 
     <div class="glass-card rounded-xl p-6 md:p-8 shadow-2xl">
-        <form action="/submit_data" method="post" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            {% for i in range(1,14) %}
-                <input type="text" name="value{{ i }}" placeholder="Value {{ i }}" required
-                       class="form-input w-full rounded-lg p-3 text-white">
-            {% endfor %}
+        <h3 class="text-xl font-medium mb-4">Submit Data Manually</h3>
+        <form action="/submit_data" method="post">
+            <input type="text" name="values" placeholder="Enter comma-separated values for a new data entry" required
+                   class="form-input w-full rounded-lg p-3 text-white mb-6">
             <button type="submit"
-                    class="md:col-span-2 mt-4 btn-predict w-full font-bold py-3 px-6 rounded-lg text-white text-lg">
+                    class="btn-predict w-full font-bold py-3 px-6 rounded-lg text-white text-lg">
                 Submit Manual Data
             </button>
         </form>
@@ -28,7 +27,7 @@
             <label for="file-upload" class="file-upload-label rounded-lg p-10 text-center cursor-pointer block">
                 <input type="file" name="file" id="file-upload" accept=".csv" required class="hidden">
                  <div class="flex flex-col items-center justify-center">
-                    <svg class="w-16 h-16 text-gray-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-4-4V7a4 4 0 014-4h2a4 4 0 014 4v1m-1 8l-4-4m0 0l-4 4m4-4v12"></path></svg>
+                    <svg class="w-16 h-16 text-gray-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-4-4V7a4 4 0 014-4h2a4 4 0 014 4v1m-1 8l-4-4m0 0l-4 4m4-4v12"></path></svg>
                     <p class="text-gray-300 font-semibold">Drag & drop your CSV file here</p>
                     <p class="text-sm text-gray-500 mt-1">or <span class="text-blue-400 font-medium">click to browse</span></p>
                 </div>

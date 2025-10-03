@@ -2,34 +2,78 @@
 {% block content %}
 <div class="max-w-4xl mx-auto text-center">
     <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-2">Exoplanet Prediction System</h1>
-    <p class="text-lg text-gray-400 mb-8">Enter data to get a prediction from our trained model.</p>
+    <p class="text-lg text-gray-400 mb-8">Get a prediction for a single entry or upload a CSV for bulk predictions.</p>
 
     <div class="glass-card rounded-xl p-6 md:p-8 shadow-2xl">
-        <form action="/predict" method="post" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <input type="text" name="features" placeholder="Features in csv format" required
-                   class="form-input w-full rounded-lg p-3 text-white">
-
-            <div class="md:col-span-2 mt-4">
-                <button type="submit" class="btn-predict w-full font-bold py-3 px-6 rounded-lg text-white text-lg">
-                    Predict Status
-                </button>
-            </div>
+        <h3 class="text-xl font-medium mb-4 text-white">Single Prediction</h3>
+        <form action="/predict" method="post">
+            <input type="text" name="features" placeholder="Enter comma-separated feature values" required
+                   class="form-input w-full rounded-lg p-3 text-white mb-6">
+            <button type="submit" class="btn-predict w-full font-bold py-3 px-6 rounded-lg text-white text-lg">
+                Predict
+            </button>
         </form>
 
-        {% if prediction_text %}
-        <div class="mt-8 text-center">
-             <div class="glass-card rounded-lg p-6 border border-blue-500/50">
-                <h3 class="text-2xl font-bold text-white mb-2">Prediction Result</h3>
-                <p class="text-lg text-gray-300">{{ prediction_text }}</p>
-            </div>
-        </div>
-        {% endif %}
-		{% if error_text %}
-            <div class="glass-card rounded-lg p-6 border border-red-500/50">
-                <h3 class="text-2xl font-bold text-red-400 mb-2">Error</h3>
-                <p class="text-lg text-gray-300">{{ error_text }}</p>
+        <hr class="my-8 border-gray-700">
+
+        <h3 class="text-xl font-medium mb-4 text-white">Bulk Prediction via CSV</h3>
+        <form action="/predict_csv" method="post" enctype="multipart/form-data">
+             <label for="file-predict" class="file-upload-label rounded-lg p-10 text-center cursor-pointer block">
+                <input type="file" name="file" id="file-predict" accept=".csv" required class="hidden">
+                 <div class="flex flex-col items-center justify-center">
+                    <svg class="w-12 h-12 text-gray-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-4-4V7a4 4 0 014-4h2a4 4 0 014 4v1m-1 8l-4-4m0 0l-4 4m4-4v12"></path></svg>
+                    <p class="text-gray-300 font-semibold">Click to upload your CSV file</p>
+                </div>
+            </label>
+            <button type="submit" class="btn-predict w-full mt-6 font-bold py-3 px-6 rounded-lg text-white text-lg">
+                Predict from CSV
+            </button>
+        </form>
+
+        <div class="mt-8 text-left">
+            {% if prediction_text %}
+            <div class="glass-card rounded-lg p-6 border border-blue-500/50">
+                <h3 class="text-2xl font-bold text-white mb-2 text-center">Prediction Result</h3>
+                <p class="text-lg text-gray-300 text-center">{{ prediction_text }}</p>
             </div>
             {% endif %}
+
+            {% if bulk_prediction_results %}
+            <div class="glass-card rounded-lg p-6 border border-blue-500/50">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-2xl font-bold text-white">Bulk Prediction Results</h3>
+                    <button id="copy-btn" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg text-sm">Copy</button>
+                </div>
+                <textarea id="results-box" readonly class="form-input w-full rounded-lg p-3 text-white h-64 font-mono">{{ bulk_prediction_results }}</textarea>
+            </div>
+            {% endif %}
+
+            {% if error_text %}
+            <div class="glass-card rounded-lg p-6 border border-red-500/50 mt-4">
+                <h3 class="text-2xl font-bold text-red-400 mb-2 text-center">Error</h3>
+                <p class="text-lg text-gray-300 text-center">{{ error_text }}</p>
+            </div>
+            {% endif %}
+        </div>
     </div>
 </div>
+
+<script>
+    const copyBtn = document.getElementById('copy-btn');
+    const resultsBox = document.getElementById('results-box');
+
+    if (copyBtn && resultsBox) {
+        copyBtn.addEventListener('click', () => {
+            resultsBox.select();
+            navigator.clipboard.writeText(resultsBox.value)
+                .then(() => {
+                    copyBtn.textContent = 'Copied!';
+                    setTimeout(() => { copyBtn.textContent = 'Copy'; }, 2000);
+                })
+                .catch(err => {
+                    console.error('Failed to copy text: ', err);
+                });
+        });
+    }
+</script>
 {% endblock %}

@@ -9,6 +9,17 @@
 	{% endif %}
 	<p class="text-lg text-gray-400 mb-8">Provide new data via the form or upload a CSV file to improve the model's accuracy.</p>
 
+	<div class="mb-4">
+		<p class="text-sm text-gray-400 mb-2 text-left">Expected Features (in order):</p>
+		<div class="flex space-x-2 overflow-x-auto pb-2">
+			{% for feature in features %}
+			<span class="bg-gray-700 text-gray-300 text-xs font-medium px-3 py-1 rounded-full whitespace-nowrap cursor-help"
+				  title="{{ feature.desc }}">
+				{{ feature.name }}
+			</span>
+			{% endfor %}
+		</div>
+	</div>
     <div class="glass-card rounded-xl p-6 md:p-8 shadow-2xl">
         <h3 class="text-xl font-medium mb-4">Submit Data Manually</h3>
         <form action="/submit_data" method="post">

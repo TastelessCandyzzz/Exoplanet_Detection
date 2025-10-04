@@ -9,17 +9,6 @@
 	{% endif %}
 	<p class="text-lg text-gray-400 mb-8">Provide new data via the form or upload a CSV file to improve the model's accuracy.</p>
 
-	<div class="mb-4">
-		<p class="text-sm text-gray-400 mb-2 text-left">Expected Features (in order):</p>
-		<div class="flex space-x-2 overflow-x-auto pb-2">
-			{% for feature in features %}
-			<span class="bg-gray-700 text-gray-300 text-xs font-medium px-3 py-1 rounded-full whitespace-nowrap cursor-help"
-				  title="{{ feature.desc }}">
-				{{ feature.name }}
-			</span>
-			{% endfor %}
-		</div>
-	</div>
     <div class="glass-card rounded-xl p-6 md:p-8 shadow-2xl">
         <h3 class="text-xl font-medium mb-4">Submit Data Manually</h3>
         <form action="/submit_data" method="post">
@@ -37,8 +26,9 @@
         <form action="/upload_csv" method="post" enctype="multipart/form-data" class="space-y-6">
             <label for="file-upload" class="file-upload-label rounded-lg p-10 text-center cursor-pointer block">
                 <input type="file" name="file" id="file-upload" accept=".csv" required class="hidden">
-                 <div class="flex flex-col items-center justify-center">
-                    <svg class="w-16 h-16 text-gray-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-4-4V7a4 4 0 014-4h2a4 4 0 014 4v1m-1 8l-4-4m0 0l-4 4m4-4v12"></path></svg>
+
+                 <div id="file-upload-display" class="flex flex-col items-center justify-center">
+                    <svg class="w-16 h-16 text-gray-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-4-4V7a4 4 0 014-4h2a4 4 0 014 4v1m-1 8l-4-4m0 0l-4 4m4-4v12"></path></svg>
                     <p class="text-gray-300 font-semibold">Drag & drop your CSV file here</p>
                     <p class="text-sm text-gray-500 mt-1">or <span class="text-blue-400 font-medium">click to browse</span></p>
                 </div>
@@ -50,4 +40,21 @@
         </form>
     </div>
 </div>
+
+<script>
+    const fileInput = document.getElementById('file-upload');
+    const fileDisplay = document.getElementById('file-upload-display');
+
+    fileInput.addEventListener('change', function() {
+        if (fileInput.files.length > 0) {
+            // A file was selected
+            const fileName = fileInput.files[0].name;
+            fileDisplay.innerHTML = `
+                <svg class="w-16 h-16 text-green-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <p class="text-gray-300 font-semibold">File Selected:</p>
+                <p class="text-sm text-blue-400 mt-1">${fileName}</p>
+            `;
+        }
+    });
+</script>
 {% endblock %}

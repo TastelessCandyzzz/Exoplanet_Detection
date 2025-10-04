@@ -31,7 +31,7 @@
         <form action="/predict_csv" method="post" enctype="multipart/form-data">
              <label for="file-predict" class="file-upload-label rounded-lg p-10 text-center cursor-pointer block">
                 <input type="file" name="file" id="file-predict" accept=".csv" required class="hidden">
-                 <div class="flex flex-col items-center justify-center">
+                 <div id="file-predict-display" class="flex flex-col items-center justify-center">
                     <svg class="w-12 h-12 text-gray-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-4-4V7a4 4 0 014-4h2a4 4 0 014 4v1m-1 8l-4-4m0 0l-4 4m4-4v12"></path></svg>
                     <p class="text-gray-300 font-semibold">Click to upload your CSV file</p>
                 </div>
@@ -93,6 +93,22 @@
                 .catch(err => {
                     console.error('Failed to copy text: ', err);
                 });
+        });
+    }
+	const predictFileInput = document.getElementById('file-predict');
+    const predictFileDisplay = document.getElementById('file-predict-display');
+
+    if (predictFileInput && predictFileDisplay) {
+        predictFileInput.addEventListener('change', function() {
+            if (predictFileInput.files.length > 0) {
+                // A file was selected
+                const fileName = predictFileInput.files[0].name;
+                predictFileDisplay.innerHTML = `
+                    <svg class="w-16 h-16 text-green-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <p class="text-gray-300 font-semibold">File Selected:</p>
+                    <p class="text-sm text-blue-400 mt-1">${fileName}</p>
+                `;
+            }
         });
     }
 </script>

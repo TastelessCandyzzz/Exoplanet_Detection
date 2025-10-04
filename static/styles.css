@@ -33,6 +33,28 @@ html, body {
     background-size: 300px 300px, 600px 600px;
     animation: zoom 250s ease-in-out infinite, move-stars 250s linear infinite;
 }
+.planet-overlay {
+        position: fixed;
+        bottom: -600px; /* Adjust this to move the planet up/down to be "half cut" */
+        left: 12%;   /* Adjust this to move the planet left/right */
+        width: 1000px;  /* Adjust planet size */
+        height: 1000px; /* Adjust planet size */
+        background-image: url("planet.png"); /* Path to your planet image */
+        background-size: cover; /* Ensures the image covers the div */
+        background-repeat: no-repeat;
+        opacity: 0.6; /* Make it slightly transparent to blend with the sky */
+        z-index: 5; /* This places it *above* the stars (-1) but *below* your content (10) */
+
+        /* Optional: Add a subtle animation to make the planet slightly dynamic */
+        animation: planet-float 100s ease-in-out infinite alternate;
+    }
+
+    /* NEW: Keyframes for subtle planet animation */
+@keyframes planet-float {
+	0% { transform: translate(0, 0) scale(1); }
+	50% { transform: translate(20px, -20px) scale(1.02); } /* Slight movement and zoom */
+	100% { transform: translate(0, 0) scale(1); }
+}
 
 @keyframes move-stars {
     from { background-position: 0 0, 0 0; }

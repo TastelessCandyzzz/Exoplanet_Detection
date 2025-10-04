@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, render_template, redirect, url_for, flash
+from flask import Flask, request, render_template, redirect, url_for, flash, session, Response
 import numpy as np
 import pandas as pd
 
@@ -42,6 +42,7 @@ SUBMISSION_FEATURES_INFO = [
 @app.route("/")
 def index():
     # Pass the 17 prediction features to the index page
+    session.pop('prediction_data', None)
     return render_template("index.html", features=PREDICTION_FEATURES_INFO)
 
 @app.route("/submission")
@@ -90,19 +91,49 @@ def predict_csv():
             is_header = all(not is_numeric(val) for val in first_row)
             df = pd.read_csv(file, header=0 if is_header else None)
 
-            # Check for correct number of columns
             if df.shape[1] != 17:
                 error_msg = f"Invalid CSV. Please ensure it has exactly 17 feature columns. Your file has {df.shape[1]}."
                 return render_template("index.html", error_text=error_msg, features=PREDICTION_FEATURES_INFO)
 
+            # Make predictions
             predictions = prediction.make_bulk_prediction(df)
+
+            # --- NEW: Prepare data for download ---
+            # 1. Add predictions as a new column to the original data
+            df['prediction'] = predictions
+
+            # 2. Store the complete DataFrame (as a CSV string) in the user's session
+            session['prediction_data'] = df.to_csv(index=False)
+
+            # Format results for display in the textarea (only the predictions)
             results_str = "\n".join(map(str, predictions))
-            return render_template("index.html", bulk_prediction_results=results_str, features=PREDICTION_FEATURES_INFO)
+
+            # Pass a flag to the template to show the download button
+            return render_template("index.html", bulk_prediction_results=results_str, features=PREDICTION_FEATURES_INFO, download_ready=True)
+
         except Exception as e:
             error_msg = f"Error processing CSV file: {e}"
             return render_template("index.html", error_text=error_msg, features=PREDICTION_FEATURES_INFO)
     else:
         return render_template("index.html", error_text="Invalid file type. Please upload a CSV.", features=PREDICTION_FEATURES_INFO)
+
+@app.route('/download_predictions')
+def download_predictions():
+    # Get the CSV data from the session, clearing it after access
+    csv_data = session.pop('prediction_data', None)
+
+    if csv_data:
+        # Create a response object with the CSV data
+        response = Response(
+            csv_data,
+            mimetype="text/csv",
+            headers={"Content-disposition":
+                     "attachment; filename=predictions.csv"}
+        )
+        return response
+    else:
+        # If no data is in the session, redirect to the home page
+        return redirect(url_for('index'))
 
 
 @app.route("/submit_data", methods=["POST"])

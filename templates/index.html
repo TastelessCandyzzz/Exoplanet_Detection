@@ -49,15 +49,24 @@
             </div>
             {% endif %}
 
-            {% if bulk_prediction_results %}
-            <div class="glass-card rounded-lg p-6 border border-blue-500/50">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-2xl font-bold text-white">Bulk Prediction Results</h3>
-                    <button id="copy-btn" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg text-sm">Copy</button>
-                </div>
-                <textarea id="results-box" readonly class="form-input w-full rounded-lg p-3 text-white h-64 font-mono">{{ bulk_prediction_results }}</textarea>
-            </div>
+			{% if bulk_prediction_results %}
+<div class="glass-card rounded-lg p-6 border border-blue-500/50">
+    <div class="flex justify-between items-center mb-4">
+        <h3 class="text-2xl font-bold text-white">Bulk Prediction Results</h3>
+        <div class="flex space-x-2">
+            <button id="copy-btn" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg text-sm">Copy</button>
+
+            {% if download_ready %}
+            <a href="{{ url_for('download_predictions') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg text-sm">
+                Download CSV
+            </a>
             {% endif %}
+
+        </div>
+    </div>
+    <textarea id="results-box" readonly class="form-input w-full rounded-lg p-3 text-white h-64 font-mono">{{ bulk_prediction_results }}</textarea>
+</div>
+{% endif %}
 
             {% if error_text %}
             <div class="glass-card rounded-lg p-6 border border-red-500/50 mt-4">

@@ -46,7 +46,7 @@ def index():
     return render_template("index.html", features=PREDICTION_FEATURES_INFO)
 
 @app.route("/submission")
-def submission():
+def submission_page():
     # Pass all 18 submission values to the submission page
     return render_template("submission.html", features=SUBMISSION_FEATURES_INFO)
 
@@ -149,7 +149,7 @@ def submit_data():
         submission.add_data(values)
         retrain.train_model()
         flash('Data submitted successfully! The model is now retraining.', 'success')
-        return redirect(url_for("submission"))
+        return redirect(url_for("submission_page"))
     except ValueError:
         error_msg = "Invalid input. Please enter comma-separated numeric values."
         return render_template("submission.html", error_text=error_msg, features=SUBMISSION_FEATURES_INFO)
@@ -170,7 +170,7 @@ def upload_csv():
     submission.add_csv(filepath)
     retrain.train_model()
     flash('CSV uploaded successfully! The model is now retraining.', 'success')
-    return redirect(url_for("submission"))
+    return redirect(url_for("submission_page"))
 
 @app.route("/about")
 def about():

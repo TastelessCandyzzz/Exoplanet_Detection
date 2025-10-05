@@ -106,7 +106,16 @@ def predict_csv():
             session['prediction_data'] = df.to_csv(index=False)
 
             # Format results for display in the textarea (only the predictions)
-            results_str = "\n".join(map(str, predictions))
+            #results_str = "\n".join(map(str, predictions))
+            #results_str = "\n".join(predictions.astype(int).astype(str))
+            #results_str = "\n".join(predictions.astype(str))
+            # 1. Ensure all predictions are strings
+            predictions_as_strings = predictions.astype(str)
+        # 2. Clean any stray quotes from the start and end of each string
+            cleaned_predictions = [p.strip("'") for p in predictions_as_strings]
+        # 3. Join the cleaned strings for display
+            results_str = "\n".join(cleaned_predictions)
+
 
             # Pass a flag to the template to show the download button
             return render_template("index.html", bulk_prediction_results=results_str, features=PREDICTION_FEATURES_INFO, download_ready=True)
